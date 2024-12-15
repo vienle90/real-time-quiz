@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Events\LeaderboardChanged;
 use App\Events\UserScoreUpdated;
+use App\Services\GetTopUsersService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Redis;
@@ -25,7 +27,9 @@ class UpdateUserScoreToRedis implements ShouldQueue
     /**
      * Create the event listener.
      */
-    public function __construct()
+    public function __construct(
+        private readonly GetTopUsersService $getTopUsersService
+    )
     {
         //
     }
@@ -42,5 +46,8 @@ class UpdateUserScoreToRedis implements ShouldQueue
         $userScoreSortedSet = sprintf('quiz:%d:user_scores', $event->getQuizId());
         Redis::command('ZINCRBY', [$userScoreSortedSet, $event->getScore(), $event->getUserId()]);
         dump('Redis: User score updated for user id: ' . $event->getUserId() . ' with score: ' . $event->getScore());
+        $topUsers = $this->getTopUsersService->__invoke($event->getQuizId(), 10)->toArray();
+
+        event(new LeaderboardChanged($event->getQuizId(), $topUsers));
     }
 }

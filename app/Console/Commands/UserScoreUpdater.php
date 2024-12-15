@@ -31,7 +31,6 @@ class UserScoreUpdater extends Command
         $score = $this->argument('score');
 
         event(new UserScoreUpdated($quizId, $userId, $score));
-
         $this->info('Fired event to update user score. Quiz ID: ' . $quizId . ', User ID: ' . $userId . ', Score: ' . $score);
     }
 }
