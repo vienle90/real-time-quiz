@@ -7,5 +7,5 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'api'], function () {
-    Route::get('/user-scores', 'App\Http\Controllers\UserScoreController@index');
+    Route::get('/quiz/{quizId}/leaderboard', 'App\Http\Controllers\QuizController@leaderboard');
 });
