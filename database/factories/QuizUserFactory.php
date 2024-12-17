@@ -17,7 +17,10 @@ class QuizUserFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'quiz_id' => 1,
+            'user_id' => 1,
+            'score' => 0,
+            'status' => 'joined'
         ];
     }
 }
