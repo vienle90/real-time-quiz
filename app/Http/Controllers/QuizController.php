@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Services\GetTopUsersService;
+use App\Services\LeaderboardService;
 use App\Services\QuestionService;
 use App\Services\QuizService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class QuizController extends Controller
 {
     public function __construct(
-        private readonly GetTopUsersService $getTopUsersService,
+        private readonly LeaderboardService $getTopUsersService,
         private readonly QuizService        $quizService,
         private readonly QuestionService    $questionService,
     )

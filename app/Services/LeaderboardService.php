@@ -7,10 +7,8 @@ namespace App\Services;
 use App\Repositories\Contracts\LeaderboardRepositoryInterface;
 use Illuminate\Support\Collection;
 
-readonly class GetTopUsersService
+readonly class LeaderboardService
 {
-    const DEFAULT_LIMIT = -1;
-
     public function __construct(
         private LeaderBoardRepositoryInterface $leaderBoardRepository,
     )

@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\LeaderboardChanged;
 use App\Events\QuestionAnswerSubmitted;
-use App\Services\GetTopUsersService;
+use App\Services\LeaderboardService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Redis;
 
@@ -27,7 +27,7 @@ class UpdateUserScoreToRedis implements ShouldQueue
      * Create the event listener.
      */
     public function __construct(
-        private readonly GetTopUsersService $getTopUsersService
+        private readonly LeaderboardService $getTopUsersService
     )
     {
         //
