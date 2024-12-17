@@ -8,5 +8,5 @@ use Illuminate\Support\Collection;
 
 interface LeaderboardRepositoryInterface
 {
-    public function getTopUsers(int $quizId, int $limit): Collection;
+    public function getUsers(int $quizId): Collection;
 }

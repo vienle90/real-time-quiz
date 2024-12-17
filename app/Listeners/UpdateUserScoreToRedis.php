@@ -3,10 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\LeaderboardChanged;
-use App\Events\UserScoreUpdated;
+use App\Events\QuestionAnswerSubmitted;
 use App\Services\GetTopUsersService;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Redis;
 
 class UpdateUserScoreToRedis implements ShouldQueue
@@ -37,17 +36,19 @@ class UpdateUserScoreToRedis implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(UserScoreUpdated $event): void
+    public function handle(QuestionAnswerSubmitted $event): void
     {
-        $userDetails = Redis::command('hgetall', ['user:' . $event->getUserId()]);
-        if (empty($userDetails)) {
-            Redis::command('hmset', ['user:' . $event->getUserId(), 'name', fake()->name()]);
-        }
-        $userScoreSortedSet = sprintf('quiz:%d:user_scores', $event->getQuizId());
-        Redis::command('ZINCRBY', [$userScoreSortedSet, $event->getScore(), $event->getUserId()]);
-        dump('Redis: User score updated for user id: ' . $event->getUserId() . ' with score: ' . $event->getScore());
-        $topUsers = $this->getTopUsersService->__invoke($event->getQuizId(), 10)->toArray();
+        $userScoreSortedSet = sprintf('quiz:%d:user_scores', $event->quizId);
+        Redis::command('ZINCRBY', [$userScoreSortedSet, $event->score, $event->userId]);
 
-        event(new LeaderboardChanged($event->getQuizId(), $topUsers));
+        info('Redis: User score updated for user id: ' . $event->userId . ' with score: ' . $event->score);
+        $newScore = Redis::command('zscore', [$userScoreSortedSet, $event->userId]);
+
+        $topUsers = $this->getTopUsersService->__invoke($event->quizId)->toArray();
+
+        event(new LeaderboardChanged(
+            quizId: $event->quizId,
+            topUsers: $topUsers
+        ));
     }
 }

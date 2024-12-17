@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 readonly class GetTopUsersService
 {
-    const DEFAULT_LIMIT = 10;
+    const DEFAULT_LIMIT = -1;
 
     public function __construct(
         private LeaderBoardRepositoryInterface $leaderBoardRepository,
@@ -17,11 +17,10 @@ readonly class GetTopUsersService
     {
     }
 
-    public function __invoke(int $quizId, ?int $limit): Collection
+    public function __invoke(int $quizId): Collection
     {
-        return $this->leaderBoardRepository->getTopUsers(
+        return $this->leaderBoardRepository->getUsers(
             quizId: $quizId,
-            limit: $limit ?? self::DEFAULT_LIMIT,
         );
     }
 }
