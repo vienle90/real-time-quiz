@@ -34,7 +34,7 @@ This document will walk through the detailed system design, including the archit
 
 # System Design
 
-![alt text](https://github.com/vienle90/real-time-quiz/blob/main/resources/documents/real-time-quiz-system-design.png)
+![alt system_design_diagram](https://github.com/vienle90/real-time-quiz/blob/main/resources/documents/real-time-quiz-system-design.png)
 
 ## Architecture Diagram
 
@@ -108,6 +108,7 @@ When a user joins a quiz session, the following data flow occurs:
 
 # Implementation
 ## Database Schema
+![alt db_schema](https://github.com/vienle90/real-time-quiz/blob/main/resources/documents/online_quiz_db_design.png)
 
 ## Build For the Future
 ### Scalability
