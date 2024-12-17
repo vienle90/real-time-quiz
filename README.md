@@ -34,6 +34,8 @@ This document will walk through the detailed system design, including the archit
 
 # System Design
 
+![alt text](https://github.com/vienle90/real-time-quiz/blob/main/resources/documents/real-time-quiz-system-design.png)
+
 ## Architecture Diagram
 
 ## Component Description
