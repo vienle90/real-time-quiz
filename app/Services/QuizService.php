@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class QuizService
 {
-    const SCORE_INCREMENT = 2;
+    const SCORE_INCREMENT = 5;
     const SCORE_DECREMENT = 1;
 
     public function __construct(
