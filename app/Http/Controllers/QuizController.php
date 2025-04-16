@@ -25,6 +25,21 @@ class QuizController extends Controller
         return response()->json($this->quizService->getAllQuizzes());
     }
 
+    public function show(int $quizId): JsonResponse
+    {
+        try {
+            $quiz = $this->quizService->getQuizById($quizId);
+            
+            if (!$quiz) {
+                return response()->json(['message' => 'Quiz not found'], 404);
+            }
+            
+            return response()->json($quiz);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error retrieving quiz'], 500);
+        }
+    }
+
     public function joinQuiz(Request $request, int $quizId): JsonResponse
     {
         $quizUser = $this->quizService->joinQuiz($quizId, $request->get('user_id'));
