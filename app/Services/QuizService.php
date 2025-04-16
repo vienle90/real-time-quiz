@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\QuizDifficulty;
 use App\Events\QuestionAnswerSubmitted;
 use App\Models\Quiz;
 use App\Models\QuizUser;
@@ -31,6 +32,15 @@ class QuizService
     public function getAllQuizzes(): Collection
     {
         return $this->quizRepository->getQuizzes();
+    }
+
+    public function getQuizzesByDifficulty(?string $difficulty = null): Collection
+    {
+        if ($difficulty && in_array($difficulty, QuizDifficulty::values())) {
+            return $this->quizRepository->getQuizzesByDifficulty($difficulty);
+        }
+        
+        return $this->getAllQuizzes();
     }
 
     public function getQuizById(int $quizId): ?Quiz

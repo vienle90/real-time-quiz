@@ -11,3 +11,4 @@ Route::post('/quizzes/{quizId}/users', 'App\Http\Controllers\QuizController@join
 Route::get('/quizzes/{quizId}/users/{userId}', 'App\Http\Controllers\QuizController@getUser');
 Route::get('/quizzes/{quizId}/questions', 'App\Http\Controllers\QuizController@getQuestions');
 Route::post('/quizzes/{quizId}/questions/{questionId}/answers', 'App\Http\Controllers\QuizController@answerQuestion');
+Route::get('/quiz-difficulty-levels', 'App\Http\Controllers\QuizController@getDifficultyLevels');

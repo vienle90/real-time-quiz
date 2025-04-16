@@ -10,11 +10,25 @@ use Illuminate\Database\Eloquent\Collection;
 
 class QuizRepository implements QuizRepositoryInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function getQuizzes(): Collection
     {
         return Quiz::all();
     }
     
+    /**
+     * @inheritDoc
+     */
+    public function getQuizzesByDifficulty(string $difficulty): Collection
+    {
+        return Quiz::where('difficulty', $difficulty)->get();
+    }
+    
+    /**
+     * @inheritDoc
+     */
     public function findById(int $id): ?Quiz
     {
         return Quiz::find($id);
