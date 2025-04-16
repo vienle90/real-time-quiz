@@ -14,4 +14,9 @@ class QuizRepository implements QuizRepositoryInterface
     {
         return Quiz::all();
     }
+    
+    public function findById(int $id): ?Quiz
+    {
+        return Quiz::find($id);
+    }
 }

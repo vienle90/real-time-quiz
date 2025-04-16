@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Events\QuestionAnswerSubmitted;
+use App\Models\Quiz;
 use App\Models\QuizUser;
 use App\Models\UserQuestionAnswer;
 use App\Repositories\Contracts\QuestionChoiceRepositoryInterface;
@@ -30,6 +31,11 @@ class QuizService
     public function getAllQuizzes(): Collection
     {
         return $this->quizRepository->getQuizzes();
+    }
+
+    public function getQuizById(int $quizId): ?Quiz
+    {
+        return $this->quizRepository->findById($quizId);
     }
 
     public function joinQuiz(int $quizId, int $userId): QuizUser
