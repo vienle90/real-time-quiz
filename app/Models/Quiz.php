@@ -32,6 +32,26 @@ class Quiz extends Model
         'difficulty' => QuizDifficulty::class,
     ];
 
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray()
+    {
+        $array = parent::toArray();
+        
+        if ($this->difficulty) {
+            $array['difficulty'] = [
+                'value' => $this->difficulty->value,
+                'label' => $this->difficulty->label(),
+                'color' => $this->difficulty->color(),
+            ];
+        }
+        
+        return $array;
+    }
+
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class, 'quiz_id');

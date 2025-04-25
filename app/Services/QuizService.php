@@ -36,7 +36,7 @@ class QuizService
 
     public function getQuizzesByDifficulty(?string $difficulty = null): Collection
     {
-        if ($difficulty && in_array($difficulty, QuizDifficulty::values())) {
+        if ($difficulty && $difficulty !== 'all' && in_array($difficulty, QuizDifficulty::values())) {
             return $this->quizRepository->getQuizzesByDifficulty($difficulty);
         }
         
