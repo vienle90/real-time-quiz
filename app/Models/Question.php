@@ -12,6 +12,16 @@ class Question extends Model
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'quiz_id',
+        'question',
+    ];
+
     public function choices(): HasMany
     {
         return $this->hasMany(QuestionChoice::class, 'question_id');
