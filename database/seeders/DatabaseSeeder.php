@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         DB::table('quizzes')->truncate();
         DB::table('questions')->truncate();
         DB::table('question_choices')->truncate();
+        DB::table('users')->truncate();
 
         Quiz::factory()
             ->count(10)

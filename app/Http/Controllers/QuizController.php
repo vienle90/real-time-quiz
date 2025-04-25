@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuizDifficulty;
 use App\Models\Question;
 use App\Services\LeaderboardService;
 use App\Services\QuestionService;
@@ -20,9 +21,26 @@ class QuizController extends Controller
     {
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json($this->quizService->getAllQuizzes());
+        $difficulty = $request->query('difficulty');
+        $quizzes = $this->quizService->getQuizzesByDifficulty($difficulty);
+        
+        return response()->json($quizzes);
+    }
+
+    public function getDifficultyLevels(): JsonResponse
+    {
+        $levels = array_map(function ($value) {
+            $enum = QuizDifficulty::from($value);
+            return [
+                'value' => $value,
+                'label' => $enum->label(),
+                'color' => $enum->color(),
+            ];
+        }, QuizDifficulty::values());
+
+        return response()->json($levels);
     }
 
     public function show(int $quizId): JsonResponse
