@@ -8,13 +8,12 @@ use App\Enums\QuizDifficulty;
 use App\Events\QuestionAnswerSubmitted;
 use App\Models\Quiz;
 use App\Models\QuizUser;
-use App\Models\UserQuestionAnswer;
 use App\Repositories\Contracts\QuestionChoiceRepositoryInterface;
-use App\Repositories\Contracts\QuestionRepositoryInterface;
 use App\Repositories\Contracts\QuizRepositoryInterface;
 use App\Repositories\Contracts\QuizUserRepositoryInterface;
-use App\Repositories\Contracts\UserQuestionAnswerRepositoryInterface;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class QuizService
 {
@@ -25,6 +24,7 @@ class QuizService
         private readonly QuizRepositoryInterface               $quizRepository,
         private readonly QuizUserRepositoryInterface           $quizUserRepository,
         private readonly QuestionChoiceRepositoryInterface     $questionChoiceRepository,
+        private readonly UserRepositoryInterface               $userRepository
     )
     {
     }
@@ -34,12 +34,26 @@ class QuizService
         return $this->quizRepository->getQuizzes();
     }
 
-    public function getQuizzesByDifficulty(?string $difficulty = null): Collection
+    /**
+     * Get featured quizzes.
+     *
+     * @return Collection
+     */
+    public function getFeaturedQuizzes(): Collection
     {
+        return $this->quizRepository->getFeaturedQuizzes();
+    }
+
+    public function getQuizzesByDifficulty(?string $difficulty = null, bool $featured = false): Collection
+    {
+        if ($featured) {
+            return $this->getFeaturedQuizzes();
+        }
+        
         if ($difficulty && $difficulty !== 'all' && in_array($difficulty, QuizDifficulty::values())) {
             return $this->quizRepository->getQuizzesByDifficulty($difficulty);
         }
-        
+
         return $this->getAllQuizzes();
     }
 
@@ -50,6 +64,11 @@ class QuizService
 
     public function joinQuiz(int $quizId, int $userId): QuizUser
     {
+        $user = $this->userRepository->findById($userId);
+        if (!$user) {
+            throw new ModelNotFoundException("User with ID {$userId} not found");
+        }
+
         return $this->quizUserRepository->joinQuiz($userId, $quizId);
     }
 
@@ -63,12 +82,12 @@ class QuizService
         $choice = $this->questionChoiceRepository->findOrFail($choiceId, $questionId);
         $score = $choice->is_correct ? self::SCORE_INCREMENT : -self::SCORE_DECREMENT;
         event(new QuestionAnswerSubmitted(
-            $questionId,
-            $userId,
-            $quizId,
-            $choiceId,
-            $choice->is_correct,
-            $score
+            questionId: $questionId,
+            userId: $userId,
+            quizId: $quizId,
+            choiceId: $choiceId,
+            isCorrect: $choice->is_correct,
+            score: $score
         ));
 
         return [

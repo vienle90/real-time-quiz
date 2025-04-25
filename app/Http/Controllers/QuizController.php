@@ -24,9 +24,22 @@ class QuizController extends Controller
     public function index(Request $request): JsonResponse
     {
         $difficulty = $request->query('difficulty');
-        $quizzes = $this->quizService->getQuizzesByDifficulty($difficulty);
+        $featured = $request->boolean('featured');
+        
+        $quizzes = $this->quizService->getQuizzesByDifficulty($difficulty, $featured);
         
         return response()->json($quizzes);
+    }
+    
+    /**
+     * Get featured quizzes.
+     *
+     * @return JsonResponse
+     */
+    public function featured(): JsonResponse
+    {
+        $featuredQuizzes = $this->quizService->getFeaturedQuizzes();
+        return response()->json($featuredQuizzes);
     }
 
     public function getDifficultyLevels(): JsonResponse

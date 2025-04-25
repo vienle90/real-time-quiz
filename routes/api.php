@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/users', 'App\Http\Controllers\UserController@create');
+Route::get('/quizzes/featured', 'App\Http\Controllers\QuizController@featured');
 Route::get('/quizzes', 'App\Http\Controllers\QuizController@index');
 Route::get('/quizzes/{quizId}', 'App\Http\Controllers\QuizController@show');
 Route::get('/quizzes/{quizId}/leaderboard', 'App\Http\Controllers\QuizController@leaderboard');

@@ -33,4 +33,12 @@ class QuizRepository implements QuizRepositoryInterface
     {
         return Quiz::find($id);
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getFeaturedQuizzes(): Collection
+    {
+        return Quiz::where('is_featured', true)->get();
+    }
 }

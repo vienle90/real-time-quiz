@@ -21,6 +21,7 @@ class Quiz extends Model
         'title',
         'description',
         'difficulty',
+        'is_featured',
     ];
 
     /**
@@ -30,6 +31,7 @@ class Quiz extends Model
      */
     protected $casts = [
         'difficulty' => QuizDifficulty::class,
+        'is_featured' => 'boolean',
     ];
 
     /**

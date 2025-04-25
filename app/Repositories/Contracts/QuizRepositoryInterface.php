@@ -31,4 +31,11 @@ interface QuizRepositoryInterface
      * @return Quiz|null
      */
     public function findById(int $id): ?Quiz;
+    
+    /**
+     * Get featured quizzes.
+     *
+     * @return Collection<int, Quiz>
+     */
+    public function getFeaturedQuizzes(): Collection;
 }
