@@ -15,7 +15,7 @@ interface QuizRepositoryInterface
      * @return Collection<int, Quiz>
      */
     public function getQuizzes(): Collection;
-    
+
     /**
      * Get quizzes by difficulty.
      *
@@ -23,15 +23,16 @@ interface QuizRepositoryInterface
      * @return Collection<int, Quiz>
      */
     public function getQuizzesByDifficulty(string $difficulty): Collection;
-    
+
     /**
      * Find quiz by ID.
      *
      * @param int $id
+     * @param array $relations Relationships to eager load
      * @return Quiz|null
      */
-    public function findById(int $id): ?Quiz;
-    
+    public function findById(int $id, array $relations = []): ?Quiz;
+
     /**
      * Get featured quizzes.
      *

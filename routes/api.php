@@ -13,3 +13,7 @@ Route::get('/quizzes/{quizId}/users/{userId}', 'App\Http\Controllers\QuizControl
 Route::get('/quizzes/{quizId}/questions', 'App\Http\Controllers\QuizController@getQuestions');
 Route::post('/quizzes/{quizId}/questions/{questionId}/answers', 'App\Http\Controllers\QuizController@answerQuestion');
 Route::get('/quiz-difficulty-levels', 'App\Http\Controllers\QuizController@getDifficultyLevels');
+
+// Category routes
+Route::get('/categories', 'App\Http\Controllers\CategoryController@index');
+Route::get('/categories/{id}/quizzes', 'App\Http\Controllers\CategoryController@quizzes');

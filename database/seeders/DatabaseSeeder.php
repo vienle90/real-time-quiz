@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         DB::table('question_choices')->truncate();
         DB::table('users')->truncate();
 
+        $this->call([
+            CategorySeeder::class,
+        ]);
+
         Quiz::factory()
             ->count(10)
             ->has(Question::factory(20))
