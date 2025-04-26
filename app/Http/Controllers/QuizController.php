@@ -23,14 +23,28 @@ class QuizController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $difficulty = $request->query('difficulty');
-        $featured = $request->boolean('featured');
-        
-        $quizzes = $this->quizService->getQuizzesByDifficulty($difficulty, $featured);
-        
+        $query = $this->quizService->getQuizQuery()->with('category');
+
+        // Apply category filter if provided
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Apply difficulty filter if provided
+        if ($request->has('difficulty')) {
+            $query->where('difficulty', $request->difficulty);
+        }
+
+        // Apply featured filter if provided
+        if ($request->has('is_featured')) {
+            $query->where('is_featured', filter_var($request->is_featured, FILTER_VALIDATE_BOOLEAN));
+        }
+
+        $quizzes = $query->get();
+
         return response()->json($quizzes);
     }
-    
+
     /**
      * Get featured quizzes.
      *
@@ -69,12 +83,12 @@ class QuizController extends Controller
     public function show(int $quizId): JsonResponse
     {
         try {
-            $quiz = $this->quizService->getQuizById($quizId);
-            
+            $quiz = $this->quizService->getQuizById($quizId, ['category']);
+
             if (!$quiz) {
                 return response()->json(['message' => 'Quiz not found'], 404);
             }
-            
+
             return response()->json($quiz);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error retrieving quiz'], 500);

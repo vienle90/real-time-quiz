@@ -12,6 +12,7 @@ use App\Repositories\Contracts\QuestionChoiceRepositoryInterface;
 use App\Repositories\Contracts\QuizRepositoryInterface;
 use App\Repositories\Contracts\QuizUserRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -44,12 +45,22 @@ class QuizService
         return $this->quizRepository->getFeaturedQuizzes();
     }
 
+    /**
+     * Get a base query builder for quizzes.
+     *
+     * @return Builder
+     */
+    public function getQuizQuery(): Builder
+    {
+        return Quiz::query();
+    }
+
     public function getQuizzesByDifficulty(?string $difficulty = null, bool $featured = false): Collection
     {
         if ($featured) {
             return $this->getFeaturedQuizzes();
         }
-        
+
         if ($difficulty && $difficulty !== 'all' && in_array($difficulty, QuizDifficulty::values())) {
             return $this->quizRepository->getQuizzesByDifficulty($difficulty);
         }
@@ -57,9 +68,9 @@ class QuizService
         return $this->getAllQuizzes();
     }
 
-    public function getQuizById(int $quizId): ?Quiz
+    public function getQuizById(int $quizId, array $relations = []): ?Quiz
     {
-        return $this->quizRepository->findById($quizId);
+        return $this->quizRepository->findById($quizId, $relations);
     }
 
     public function joinQuiz(int $quizId, int $userId): QuizUser

@@ -17,7 +17,7 @@ class QuizRepository implements QuizRepositoryInterface
     {
         return Quiz::all();
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -25,15 +25,15 @@ class QuizRepository implements QuizRepositoryInterface
     {
         return Quiz::where('difficulty', $difficulty)->get();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function findById(int $id): ?Quiz
+    public function findById(int $id, array $relations = []): ?Quiz
     {
-        return Quiz::find($id);
+        return Quiz::with($relations)->find($id);
     }
-    
+
     /**
      * @inheritDoc
      */
