@@ -58,13 +58,6 @@ class QuizController extends Controller
 
     public function getDifficultyLevels(): JsonResponse
     {
-        // Add "All" option
-        $allOption = [
-            'value' => 'all',
-            'label' => 'All',
-            'color' => 'primary',
-        ];
-
         $levels = array_map(function ($value) {
             $enum = QuizDifficulty::from($value);
             return [
@@ -73,9 +66,6 @@ class QuizController extends Controller
                 'color' => $enum->color(),
             ];
         }, QuizDifficulty::values());
-
-        // Prepend "All" option to the levels array
-        array_unshift($levels, $allOption);
 
         return response()->json($levels);
     }
