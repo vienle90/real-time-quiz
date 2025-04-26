@@ -4,12 +4,34 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/app/Dockerfile
     image: real-time-quiz-app
     ports:
       - "8000:80"
     volumes:
       - .:/var/www/html:z
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: real_time_quiz
+      DB_USERNAME: sail
+      DB_PASSWORD: password
+      REDIS_HOST: redis
+      RABBITMQ_HOST: rabbitmq
+  quiz-author-portal:
+    build:
+      context: .
+      dockerfile: docker/quiz-author-portal/Dockerfile
+    image: quiz-author-portal
+    ports:
+      - "8001:80"
+    volumes:
+      - ../quiz-author-portal:/var/www/html:z
     depends_on:
       - mysql
       - redis

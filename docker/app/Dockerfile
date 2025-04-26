@@ -36,13 +36,13 @@ WORKDIR /var/www/html
 RUN git config --global --add safe.directory /var/www/html
 
 # Copy application files
-COPY . /var/www/html
+COPY ../.. /var/www/html
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY ../../nginx.conf /etc/nginx/sites-available/default
 
 # Copy supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ../../supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
