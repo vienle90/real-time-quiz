@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\QuizDifficulty;
-use App\Models\Question;
 use App\Services\LeaderboardService;
 use App\Services\QuestionService;
 use App\Services\QuizService;

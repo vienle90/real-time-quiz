@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\CategoryRepository;
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\LeaderboardRepositoryInterface;
 use App\Repositories\Contracts\QuestionChoiceRepositoryInterface;
 use App\Repositories\Contracts\QuestionRepositoryInterface;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(LeaderboardRepositoryInterface::class, RedisLeaderBoardRepository::class);
         $this->app->bind(QuestionRepositoryInterface::class, QuestionRepository::class);
+        $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
     }
 
     /**
