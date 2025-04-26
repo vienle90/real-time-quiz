@@ -69,10 +69,16 @@ class QuizController extends Controller
         return response()->json($levels);
     }
 
-    public function show(int $quizId): JsonResponse
+    /**
+     * Show the specified quiz by slug.
+     *
+     * @param string $slug
+     * @return JsonResponse
+     */
+    public function show(string $slug): JsonResponse
     {
         try {
-            $quiz = $this->quizService->getQuizById($quizId, ['category']);
+            $quiz = $this->quizService->getQuizBySlug($slug, ['category']);
 
             if (!$quiz) {
                 return response()->json(['message' => 'Quiz not found'], 404);
@@ -80,7 +86,7 @@ class QuizController extends Controller
 
             return response()->json($quiz);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error retrieving quiz'], 500);
+            return response()->json(['message' => 'Error retrieving quiz: ' . $e->getMessage()], 500);
         }
     }
 

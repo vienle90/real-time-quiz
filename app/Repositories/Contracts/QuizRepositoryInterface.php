@@ -32,6 +32,33 @@ interface QuizRepositoryInterface
      * @return Quiz|null
      */
     public function findById(int $id, array $relations = []): ?Quiz;
+    
+    /**
+     * Find quiz by slug.
+     *
+     * @param string $slug
+     * @param array $relations Relationships to eager load
+     * @return Quiz|null
+     */
+    public function findBySlug(string $slug, array $relations = []): ?Quiz;
+    
+    /**
+     * Find quiz by slug.
+     *
+     * @param string $slug
+     * @param array $relations Relationships to eager load
+     * @return Quiz|null
+     */
+    public function findBySlug(string $slug, array $relations = []): ?Quiz;
+    
+    /**
+     * Find quiz by either ID or slug.
+     *
+     * @param string|int $idOrSlug
+     * @param array $relations Relationships to eager load
+     * @return Quiz|null
+     */
+    public function findByIdOrSlug(string|int $idOrSlug, array $relations = []): ?Quiz;
 
     /**
      * Get featured quizzes.
