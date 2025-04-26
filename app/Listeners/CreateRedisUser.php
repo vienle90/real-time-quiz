@@ -11,7 +11,7 @@ class CreateRedisUser implements shouldQueue
 {
     public string $connection = 'rabbitmq';
 
-    public string $queue = 'default';
+    public string $queue = 'create_redis_user';
 
     /**
      * Create the event listener.

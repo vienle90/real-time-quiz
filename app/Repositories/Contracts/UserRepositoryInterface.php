@@ -11,4 +11,6 @@ interface UserRepositoryInterface
     public function createUser(string $username): User;
 
     public function save(User $user): void;
+    
+    public function findById(int $userId): ?User;
 }
