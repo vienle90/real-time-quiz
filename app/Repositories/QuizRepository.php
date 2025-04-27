@@ -33,38 +33,13 @@ class QuizRepository implements QuizRepositoryInterface
     {
         return Quiz::with($relations)->find($id);
     }
-    
+
     /**
      * @inheritDoc
      */
     public function findBySlug(string $slug, array $relations = []): ?Quiz
     {
         return Quiz::with($relations)->where('slug', $slug)->first();
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function findBySlug(string $slug, array $relations = []): ?Quiz
-    {
-        return Quiz::with($relations)->where('slug', $slug)->first();
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function findByIdOrSlug(string|int $idOrSlug, array $relations = []): ?Quiz
-    {
-        // Check if $idOrSlug is numeric, treat it as ID
-        if (is_numeric($idOrSlug)) {
-            $quiz = $this->findById((int) $idOrSlug, $relations);
-            if ($quiz) {
-                return $quiz;
-            }
-        }
-        
-        // If not found by ID or not numeric, try as slug
-        return $this->findBySlug((string) $idOrSlug, $relations);
     }
 
     /**

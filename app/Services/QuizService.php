@@ -72,7 +72,7 @@ class QuizService
     {
         return $this->quizRepository->findById($quizId, $relations);
     }
-    
+
     /**
      * Get a quiz by its slug.
      *
@@ -83,30 +83,6 @@ class QuizService
     public function getQuizBySlug(string $slug, array $relations = []): ?Quiz
     {
         return $this->quizRepository->findBySlug($slug, $relations);
-    }
-    
-    /**
-     * Get a quiz by its slug.
-     *
-     * @param string $slug
-     * @param array $relations
-     * @return Quiz|null
-     */
-    public function getQuizBySlug(string $slug, array $relations = []): ?Quiz
-    {
-        return $this->quizRepository->findBySlug($slug, $relations);
-    }
-    
-    /**
-     * Get a quiz by either its ID or slug.
-     *
-     * @param string|int $idOrSlug
-     * @param array $relations
-     * @return Quiz|null
-     */
-    public function getQuizByIdOrSlug(string|int $idOrSlug, array $relations = []): ?Quiz
-    {
-        return $this->quizRepository->findByIdOrSlug($idOrSlug, $relations);
     }
 
     public function joinQuiz(int $quizId, int $userId): QuizUser
